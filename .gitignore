@@ -1,0 +1,13 @@
+# Solution/Project #
+####################
+*.suo
+*.user
+*.Cache
+*.ReSharper
+*.DotSettings
+
+# Directories      #
+####################
+bin/
+obj/
+_ReSharper.*/
