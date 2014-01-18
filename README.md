@@ -1,4 +1,4 @@
-Selenuim.Automation.Framework
+Selenium.Automation.Framework
 =============================
 
-Selenuim.Automation.Framework
+Selenium.Automation.Framework

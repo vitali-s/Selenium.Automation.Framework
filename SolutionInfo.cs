@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Vitali Shcharbin")]
-[assembly: AssemblyProduct("Selenuim.Automation.Framework")]
+[assembly: AssemblyProduct("Selenium.Automation.Framework")]
 [assembly: AssemblyCopyright("Copyright © Vitali Shcharbin 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
