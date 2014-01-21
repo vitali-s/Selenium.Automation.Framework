@@ -75,8 +75,10 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Scenarios\Repositories\SearchAndOpenRepository.cs" />
     <Compile Include="Scenarios\Repositories\SearchRepositoryScenario.cs" />
     <Compile Include="Views\RepositoryItemView.cs" />
+    <Compile Include="Views\RepositoryView.cs" />
     <Compile Include="Views\SearchResultsView.cs" />
     <Compile Include="Views\DefaultNavigationBarView.cs" />
   </ItemGroup>
@@ -86,7 +88,16 @@
       <Name>Selenium.Automation.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\packages\SeleniumDrivers\chromedriver.exe">
+      <Link>chromedriver.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\packages\SeleniumDrivers\IEDriverServer.exe">
+      <Link>IEDriverServer.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

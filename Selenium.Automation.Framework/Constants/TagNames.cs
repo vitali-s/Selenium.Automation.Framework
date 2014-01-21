@@ -4,5 +4,6 @@
     {
         public static readonly string Input = "input";
         public static readonly string TextArea = "textarea";
+        public static readonly string Link = "a";
     }
 }

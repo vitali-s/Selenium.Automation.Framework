@@ -14,10 +14,18 @@ namespace Selenium.Automation.Framework.Example.Features.Feature
     {
         [Test]
         [TestMethod]
-        public void Search_For_Repository()
+        public void Search_For_Automation_Framework_Repository()
         {
             Scenario<SearchRepositoryScenario>()
                 .Search(Model<SearchRepositoryModel>());
+        }
+
+        [Test]
+        [TestMethod]
+        public void Open_ReadMe_Automation_Framework_Repository()
+        {
+            Scenario<SearchAndOpenRepository>()
+                .Open(Model<SearchRepositoryModel>());
         }
 
         [Test]

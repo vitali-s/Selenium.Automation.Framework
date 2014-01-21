@@ -7,9 +7,9 @@ namespace Selenium.Automation.Framework.Example.Scenarios.Repositories
 {
     public class SearchRepositoryScenario : Scenario
     {
-        public void Search(SearchRepositoryModel searchRepositoryModel)
+        public RepositoryItemView Search(SearchRepositoryModel searchRepositoryModel)
         {
-            var homeView = Resolve<DefaultNavigationBarView>();
+            var homeView = View<DefaultNavigationBarView>();
 
             homeView.Search.Type(searchRepositoryModel.Name);
 
@@ -17,10 +17,15 @@ namespace Selenium.Automation.Framework.Example.Scenarios.Repositories
 
             var searchResults = Resolve<SearchResultsView>();
 
-            searchResults.Repositories
+            RepositoryItemView view = searchResults.Repositories
                 .Where(repository => repository.Name != null)
+                .FirstOrDefault(repository => repository.Name.Text == searchRepositoryModel.Name);
+
+            view
                 .Should()
-                .ContainSingle(repository => repository.Name.Text == searchRepositoryModel.Name);
+                .NotBeNull();
+
+            return view;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Selenium.Automation.Framework.Example.Views
         {
         }
 
-        public Element User
+        public Element FullName
         {
             get { return FindElement(By.TagName("a")); }
         }
@@ -17,6 +17,11 @@ namespace Selenium.Automation.Framework.Example.Views
         public Element Name
         {
             get { return FindElement(By.TagName("em")); }
+        }
+
+        protected override By BaseBy
+        {
+            get { return By.TagName("a"); }
         }
     }
 }

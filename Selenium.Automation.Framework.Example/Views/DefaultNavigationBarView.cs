@@ -8,5 +8,10 @@ namespace Selenium.Automation.Framework.Example.Views
         {
             get { return FindElement(By.Id("js-command-bar-field")); }
         }
+
+        protected override By BaseBy
+        {
+            get { return By.ClassName("header"); }
+        }
     }
 }

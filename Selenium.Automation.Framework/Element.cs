@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using FluentAssertions;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using Selenium.Automation.Framework.Constants;
 
 namespace Selenium.Automation.Framework
@@ -14,6 +17,11 @@ namespace Selenium.Automation.Framework
         {
             _element = element;
             _browser = browser;
+        }
+
+        public bool Displayed
+        {
+            get { return _element.Displayed; }
         }
 
         public string Value
@@ -81,6 +89,49 @@ namespace Selenium.Automation.Framework
             catch
             {
                 return null;
+            }
+        }
+
+        public void Click(bool useJavaScript = true)
+        {
+            if (useJavaScript && _element.TagName != TagNames.Link)
+            {
+                _browser.ExecuteJavaScript(string.Format("$(arguments[0]).{0}();", JavaScriptEvents.Click), _element);
+            }
+            else
+            {
+                // TODO: implement multiple tries
+                try
+                {
+                    new Actions(_browser.WebDriver)
+                        .MoveToElement(_element)
+                        .Click()
+                        .Perform();
+                }
+                catch (InvalidOperationException exception)
+                {
+                    if (exception.Message.Contains("Element is not clickable"))
+                    {
+                        Thread.Sleep(2000);
+
+                        new Actions(_browser.WebDriver)
+                            .MoveToElement(_element)
+                            .Click()
+                            .Perform();
+                    }
+                }
+            }
+        }
+
+        public void Focus()
+        {
+            if (_element.TagName == TagNames.Input)
+            {
+                _element.SendKeys(string.Empty);
+            } 
+            else
+            {
+               new Actions(_browser.WebDriver).MoveToElement(_element).Perform();
             }
         }
     }

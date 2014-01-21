@@ -21,5 +21,10 @@ namespace Selenium.Automation.Framework.Example.Views
                     .ToList();
             }
         }
+
+        protected override By BaseBy
+        {
+            get { return By.ClassName("repolist"); }
+        }
     }
 }
