@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace Selenium.Automation.Framework.Factories
 {
+    /// <summary>
+    /// Manages types and their implementations.
+    /// </summary>
     public class Container
     {
         private static readonly object LockObject = new object();
@@ -27,18 +30,44 @@ namespace Selenium.Automation.Framework.Factories
             {
                 Type type = types[index];
 
-                if (type.IsGenericType && type.FullName == null)
+                if (type.IsAssignableFrom(typeof(View)))
                 {
-                    type = type.GetGenericTypeDefinition();
+                    Register(type, type, LifeTypes.PerDependency);
                 }
-
-                _registrations[type] = type;
+                else
+                {
+                    Register(type, type, LifeTypes.Single);
+                }
             }
         }
 
-        public TDependency Resolve<TDependency>(params object[] parameters)
+        public void Register<TInterface, TImplementation>(LifeTypes lifeType = LifeTypes.Single)
         {
-            return (TDependency)Resolve(typeof(TDependency), parameters);
+            Register(typeof(TInterface), typeof(TImplementation), lifeType);
+        }
+
+        public void Register<TInterface>(object instance, LifeTypes lifeType = LifeTypes.Single)
+        {
+            Type type = instance.GetType();
+
+            Register(typeof(TInterface), type, lifeType);
+
+            _instances[type] = instance;
+        }
+
+        public void Register(Type service, Type implementation, LifeTypes lifeType = LifeTypes.Single)
+        {
+            if (service.IsGenericType && service.FullName == null)
+            {
+                service = service.GetGenericTypeDefinition();
+            }
+
+            _registrations[service] = new Registration(implementation, lifeType);
+        }
+
+        public TInterface Resolve<TInterface>(params object[] parameters)
+        {
+            return (TInterface)Resolve(typeof(TInterface), parameters);
         }
 
         public object Resolve(Type registrationType, params object[] parameters)
@@ -60,20 +89,20 @@ namespace Selenium.Automation.Framework.Factories
         {
             Type typeToGet = null;
 
-            var registration = _registrations[registrationType] as Type;
+            var registration = _registrations[registrationType] as Registration;
 
             if (registration == null)
             {
                 if (registrationType.IsGenericType)
                 {
-                    registration = _registrations[registrationType.GetGenericTypeDefinition()] as Type;
+                    registration = _registrations[registrationType.GetGenericTypeDefinition()] as Registration;
 
                     if (registration == null)
                     {
                         throw new ArgumentNullException();
                     }
 
-                    typeToGet = registration.MakeGenericType(registrationType.GetGenericArguments().Take(registration.GetGenericArguments().Length).ToArray());
+                    typeToGet = registration.Type.MakeGenericType(registrationType.GetGenericArguments().Take(registration.Type.GetGenericArguments().Length).ToArray());
                 }
                 else
                 {
@@ -82,12 +111,18 @@ namespace Selenium.Automation.Framework.Factories
             }
             else
             {
-                typeToGet = registration;
+                typeToGet = registration.Type;
             }
 
-            object instance = ResolveSingleInstance(typeToGet, parameters);
+            switch (registration.LifeType)
+            {
+                case LifeTypes.Single:
+                default:
+                    return ResolveSingleInstance(typeToGet, parameters);
 
-            return instance;
+                case LifeTypes.PerDependency:
+                    return ResolvePerDependencyInstance(typeToGet, parameters);
+            }
         }
 
         protected object ResolveSingleInstance(Type registrationType, object[] parameters)
@@ -107,6 +142,11 @@ namespace Selenium.Automation.Framework.Factories
             return instance;
         }
 
+        protected object ResolvePerDependencyInstance(Type registrationType, object[] parameters)
+        {
+            return CreateInstance(registrationType, parameters);
+        }
+
         protected object CreateInstance(Type type, params object[] additionalParameters)
         {
             var constructor = _constructors[type] as Constructor;
@@ -115,26 +155,23 @@ namespace Selenium.Automation.Framework.Factories
             {
                 ConstructorInfo[] constructors = type.GetConstructors();
 
-                if (constructors.Length != 0)
+                ConstructorInfo currentConstruction = constructors.First();
+
+                if (constructors.Length > 1)
                 {
-                    ConstructorInfo currentConstruction = constructors.First();
+                    ConstructorInfo emptyConstructor = type.GetConstructor(Type.EmptyTypes);
 
-                    if (constructors.Length > 1)
+                    if (emptyConstructor != null)
                     {
-                        ConstructorInfo emptyConstructor = type.GetConstructor(Type.EmptyTypes);
-
-                        if (emptyConstructor != null)
-                        {
-                            currentConstruction = emptyConstructor;
-                        }
+                        currentConstruction = emptyConstructor;
                     }
+                }
 
-                    constructor = new Constructor(currentConstruction);
+                constructor = new Constructor(currentConstruction);
 
-                    lock (LockObject)
-                    {
-                        _constructors[type] = constructor;
-                    }
+                lock (LockObject)
+                {
+                    _constructors[type] = constructor;
                 }
             }
 

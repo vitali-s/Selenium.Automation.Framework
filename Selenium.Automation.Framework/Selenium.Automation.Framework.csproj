@@ -73,6 +73,9 @@
     <Compile Include="Factories\Constructor.cs" />
     <Compile Include="Factories\Container.cs" />
     <Compile Include="Factories\Factory.cs" />
+    <Compile Include="Factories\InjectType.cs" />
+    <Compile Include="Factories\LifeTypes.cs" />
+    <Compile Include="Factories\Registration.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="IElementsContainer.cs" />
     <Compile Include="InfrastructureObject.cs" />
