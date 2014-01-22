@@ -15,20 +15,34 @@ namespace Selenium.Automation.Framework
 
             foreach (var item in baseFolder.EnumerateDirectories("*", SearchOption.AllDirectories))
             {
-                item.Attributes = ResetAttributes(item.Attributes);
+                ResetAttributes(item);
             }
 
             foreach (var item in baseFolder.EnumerateFiles("*", SearchOption.AllDirectories))
             {
-                item.Attributes = ResetAttributes(item.Attributes);
+                ResetAttributes(item);
             }
 
-            baseFolder.Delete(true);
+            try
+            {
+                baseFolder.Delete(true);
+            }
+            catch
+            {
+                // TODO: Add infrastructure error logging
+            }
         }
 
-        private FileAttributes ResetAttributes(FileAttributes attributes)
+        protected void ResetAttributes(FileSystemInfo fileInfo)
         {
-            return attributes & ~(FileAttributes.Archive | FileAttributes.ReadOnly | FileAttributes.Hidden);
+            try
+            {
+                fileInfo.Attributes = fileInfo.Attributes & ~(FileAttributes.Archive | FileAttributes.ReadOnly | FileAttributes.Hidden);
+            }
+            catch
+            {
+                // TODO: Add infrastructure error logging
+            }
         }
     }
 }

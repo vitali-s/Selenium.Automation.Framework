@@ -90,13 +90,6 @@ namespace Selenium.Automation.Framework
             ((ITakesScreenshot)WebDriver).GetScreenshot().SaveAsFile(path, ImageFormat.Jpeg);
         }
 
-        public void WaitForReady()
-        {
-            var ready = new Func<bool>(() => (bool)ExecuteJavaScript("return document.readyState == 'complete'"));
-
-            Waiter.SpinWait(ready, TimeSpan.FromSeconds(60), TimeSpan.FromMilliseconds(100)).Should().BeTrue("because of document is not ready.");
-        }
-
         public object ExecuteJavaScript(string javaScript, params object[] args)
         {
             var javaScriptExecutor = (IJavaScriptExecutor)WebDriver;
@@ -156,7 +149,7 @@ namespace Selenium.Automation.Framework
 
             if (Directory.Exists(defaultDataFolder))
             {
-                Waiter.Try(() => _fileSystem.ForceDelete(defaultDataFolder));
+                _fileSystem.ForceDelete(defaultDataFolder);
             }
 
             return new ChromeDriver(Directory.GetCurrentDirectory(), chromeOptions);

@@ -87,7 +87,6 @@
     </Compile>
     <Compile Include="Scenario.cs" />
     <Compile Include="View.cs" />
-    <Compile Include="Waiter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
