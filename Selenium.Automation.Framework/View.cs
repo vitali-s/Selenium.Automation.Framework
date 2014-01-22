@@ -14,14 +14,14 @@ namespace Selenium.Automation.Framework
         {
             _container = Browser;
 
-            WaitForDisplayed(BaseBy);
+            FindElement(BaseBy);
         }
 
         protected View(Element parentElement)
         {
             _container = parentElement;
 
-            WaitForDisplayed(BaseBy);
+            FindElement(BaseBy);
         }
 
         public Element Base
@@ -31,9 +31,9 @@ namespace Selenium.Automation.Framework
 
         protected abstract By BaseBy { get; }
 
-        protected Element WaitForDisplayed(By by)
+        protected Element FindElement(By by)
         {
-            Element element = null;
+            IWebElement element = null;
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -42,7 +42,7 @@ namespace Selenium.Automation.Framework
             {
                 try
                 {
-                    element = FindElement(BaseBy);
+                    element = _container.FindElement(by);
                 }
                 catch
                 {
@@ -52,28 +52,32 @@ namespace Selenium.Automation.Framework
 
             if (element == null)
             {
-                // TODO: investigate cases
-                throw new NullReferenceException(string.Format("Element '{0}' is not displayed on {1} in '{2}'.", BaseBy, GetType().Name, stopwatch.Elapsed));
-            }
-
-            return element;
-        }
-
-        protected virtual Element FindElement(By by)
-        {
-            IWebElement webElement = _container.FindElement(by);
-
-            if (webElement == null)
-            {
                 return null;
             }
 
-            return new Element(Browser, webElement);
+            return new Element(Browser, element);
         }
 
-        protected virtual ICollection<Element> FindElements(By by)
+        protected ICollection<Element> FindElements(By by)
         {
-            return _container.FindElements(by)
+            ICollection<IWebElement> elements = new List<IWebElement>();
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            while (elements.Count == 0 && stopwatch.Elapsed < TimeSpan.FromSeconds(10))
+            {
+                try
+                {
+                    elements = _container.FindElements(by);
+                }
+                catch
+                {
+                    // TODO: Implement preformance logging solution.
+                }
+            }
+
+            return elements
                 .Where(element => element != null)
                 .Select(element => new Element(Browser, element))
                 .ToList();

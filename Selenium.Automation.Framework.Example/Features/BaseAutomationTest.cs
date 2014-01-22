@@ -4,6 +4,8 @@ using TestContext = Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
 
 namespace Selenium.Automation.Framework.Example.Features
 {
+    [TestFixture]
+    [TestClass]
     public abstract class BaseAutomationTest : AutomationTest
     {
         public TestContext TestContext { get; set; }
