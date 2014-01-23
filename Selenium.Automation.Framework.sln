@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selenium.Automation.Framewo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selenium.Automation.Framework.Example", "Selenium.Automation.Framework.Example\Selenium.Automation.Framework.Example.csproj", "{06C2DDD4-295E-479C-9805-80DF7036205F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05A876D3-7E05-46FF-92FA-312C18C3E4FF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Chrome|Any CPU = Chrome|Any CPU
