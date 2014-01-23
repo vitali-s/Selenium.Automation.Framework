@@ -40,7 +40,7 @@ namespace Selenium.Automation.Framework
             {
                 if (isTestFailed())
                 {
-                    Browser.SaveScreenshot(GetPath(Configuration.FailedScreenshotsPath, string.Format(ScreenshotFileNameTemplate, DateTime.Now)));
+                    Browser.SaveScreenshot(GetPath(Configuration.TestResultPath, string.Format(ScreenshotFileNameTemplate, DateTime.Now)));
                 }
             }
             finally

@@ -15,9 +15,9 @@ namespace Selenium.Automation.Framework
             get { return ConfigurationManager.AppSettings["location"]; }
         }
 
-        public string FailedScreenshotsPath
+        public string TestResultPath
         {
-            get { return ConfigurationManager.AppSettings["failed-screenshots-path"]; }
+            get { return ConfigurationManager.AppSettings["test-result-path"]; }
         }
 
         public string TestDataPath

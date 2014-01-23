@@ -8,5 +8,7 @@ namespace Selenium.Automation.Framework
         IWebElement FindElement(By by);
 
         ICollection<IWebElement> FindElements(By by);
+
+        string GetDescription();
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using OpenQA.Selenium;
+using Selenium.Automation.Framework.Logging;
+using Selenium.Automation.Framework.Resources;
 
 namespace Selenium.Automation.Framework
 {
@@ -33,22 +35,7 @@ namespace Selenium.Automation.Framework
 
         protected Element FindElement(By by)
         {
-            IWebElement element = null;
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            while (element == null && stopwatch.Elapsed < TimeSpan.FromSeconds(10))
-            {
-                try
-                {
-                    element = _container.FindElement(by);
-                }
-                catch
-                {
-                    // TODO: Implement preformance logging solution.
-                }
-            }
+            IWebElement element = FindElements(by, null, c => c == null, locator => _container.FindElement(locator));
 
             if (element == null)
             {
@@ -60,27 +47,35 @@ namespace Selenium.Automation.Framework
 
         protected ICollection<Element> FindElements(By by)
         {
-            ICollection<IWebElement> elements = new List<IWebElement>();
+            return FindElements(by, new List<IWebElement>(), c => c.Count == 0, locator => _container.FindElements(locator))
+                .Where(element => element != null)
+                .Select(element => new Element(Browser, element))
+                .ToList();
+        }
+
+        protected TResult FindElements<TResult>(By by, TResult defaultValue, Func<TResult, bool> check, Func<By, TResult> find)
+        {
+            TResult elements = defaultValue;
 
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            while (elements.Count == 0 && stopwatch.Elapsed < TimeSpan.FromSeconds(10))
+            while (check(elements) && stopwatch.Elapsed < TimeSpan.FromSeconds(60))
             {
                 try
                 {
-                    elements = _container.FindElements(by);
+                    elements = find(by);
                 }
                 catch
                 {
-                    // TODO: Implement preformance logging solution.
                 }
             }
 
-            return elements
-                .Where(element => element != null)
-                .Select(element => new Element(Browser, element))
-                .ToList();
+            stopwatch.Stop();
+
+            Logger.LogPerformance(string.Format(Messages.TimeToDisplay, stopwatch.Elapsed, _container.GetDescription(), by));
+
+            return elements;
         }
     }
 }

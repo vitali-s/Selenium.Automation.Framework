@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using Selenium.Automation.Framework.Logging;
+using Selenium.Automation.Framework.Resources;
 
 namespace Selenium.Automation.Framework
 {
@@ -27,9 +30,9 @@ namespace Selenium.Automation.Framework
             {
                 baseFolder.Delete(true);
             }
-            catch
+            catch (Exception exception)
             {
-                // TODO: Add infrastructure error logging
+                Logger.LogInfrastructureError(string.Format(Messages.ErrorDirectoryDeletion, baseFolder.FullName), exception);
             }
         }
 
@@ -39,9 +42,9 @@ namespace Selenium.Automation.Framework
             {
                 fileInfo.Attributes = fileInfo.Attributes & ~(FileAttributes.Archive | FileAttributes.ReadOnly | FileAttributes.Hidden);
             }
-            catch
+            catch (Exception exception)
             {
-                // TODO: Add infrastructure error logging
+                Logger.LogInfrastructureError(string.Format(Messages.ErrorAttributesReset, fileInfo.FullName), exception);
             }
         }
     }

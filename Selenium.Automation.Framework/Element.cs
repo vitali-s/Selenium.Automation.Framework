@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -27,6 +25,11 @@ namespace Selenium.Automation.Framework
         public string Value
         {
             get { return _element.GetAttribute("value"); }
+        }
+
+        public string CssClass
+        {
+            get { return _element.GetAttribute("class"); }
         }
 
         public string Text
@@ -100,26 +103,8 @@ namespace Selenium.Automation.Framework
             }
             else
             {
-                // TODO: implement multiple tries
-                try
-                {
-                    new Actions(_browser.WebDriver)
-                        .MoveToElement(_element)
-                        .Click()
-                        .Perform();
-                }
-                catch (InvalidOperationException exception)
-                {
-                    if (exception.Message.Contains("Element is not clickable"))
-                    {
-                        Thread.Sleep(2000);
-
-                        new Actions(_browser.WebDriver)
-                            .MoveToElement(_element)
-                            .Click()
-                            .Perform();
-                    }
-                }
+                // Possible: _element.Click(); or _element.SendKeys(Keys.Enter);
+                new Actions(_browser.WebDriver).MoveToElement(_element).MoveByOffset(5, 5).Click().Build().Perform();
             }
         }
 
@@ -133,6 +118,11 @@ namespace Selenium.Automation.Framework
             {
                new Actions(_browser.WebDriver).MoveToElement(_element).Perform();
             }
+        }
+
+        public string GetDescription()
+        {
+            return string.Format("<{0} class=\"{1}\" />", _element.TagName, CssClass);
         }
     }
 }

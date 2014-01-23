@@ -15,6 +15,7 @@ namespace Selenium.Automation.Framework
     {
         private readonly Configuration _configuration;
         private readonly FileSystem _fileSystem;
+        private readonly Browsers _browser;
 
         private IWebDriver _webDriver;
         private string _mainWindowHandler;
@@ -23,6 +24,8 @@ namespace Selenium.Automation.Framework
         {
             _configuration = configuration;
             _fileSystem = fileSystem;
+
+            _browser = _configuration.Browser;
         }
 
         public IWebDriver WebDriver
@@ -36,6 +39,11 @@ namespace Selenium.Automation.Framework
 
                 return _webDriver;
             }
+        }
+
+        public Browsers BrowserType
+        {
+            get { return _browser; }
         }
 
         // Do not throws exceptions, only return null
@@ -73,6 +81,8 @@ namespace Selenium.Automation.Framework
 
             _webDriver.Quit();
             _webDriver = null;
+
+            // TODO: Kill web driver process: chromedriver.exe, IEDriverServer.exe (test regarding should it be done on start)
         }
 
         public void Open()
@@ -97,9 +107,14 @@ namespace Selenium.Automation.Framework
             return javaScriptExecutor.ExecuteScript(javaScript, args);
         }
 
+        public string GetDescription()
+        {
+            return "Browser";
+        }
+
         private void Start()
         {
-            switch (_configuration.Browser)
+            switch (BrowserType)
             {
                 case Browsers.InternetExplorer:
                     _webDriver = StartInternetExplorer();
