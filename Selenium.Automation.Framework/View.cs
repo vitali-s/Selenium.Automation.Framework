@@ -60,7 +60,7 @@ namespace Selenium.Automation.Framework
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            while (check(elements) && stopwatch.Elapsed < TimeSpan.FromSeconds(60))
+            while (check(elements) && stopwatch.Elapsed < TimeSpan.FromSeconds(Configuration.WaitTimeout))
             {
                 try
                 {

@@ -85,11 +85,6 @@ namespace Selenium.Automation.Framework
             // TODO: Kill web driver process: chromedriver.exe, IEDriverServer.exe (test regarding should it be done on start)
         }
 
-        public void Open()
-        {
-            WebDriver.Navigate().GoToUrl(_configuration.Location);
-        }
-
         public void Open(string url)
         {
             WebDriver.Navigate().GoToUrl(url);

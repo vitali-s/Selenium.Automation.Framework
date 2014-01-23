@@ -6,7 +6,7 @@ namespace Selenium.Automation.Framework.Example.Views
     {
         public Element Description
         {
-            get { return FindElement(By.ClassName("repository-description")); }
+            get { return FindElement(By.ClassName("js-current-repository")); }
         }
 
         protected override By BaseBy

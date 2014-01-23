@@ -15,6 +15,8 @@ namespace Selenium.Automation.Framework.Example.Features
         public void TestInitialize()
         {
             StartTest();
+
+            Browser.Open("https://github.com/");
         }
 
         [TearDown]

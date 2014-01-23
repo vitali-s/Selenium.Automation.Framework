@@ -31,7 +31,6 @@ namespace Selenium.Automation.Framework
 
         protected void StartTest()
         {
-            Browser.Open();
         }
 
         protected void EndTest(Func<bool> isTestFailed)

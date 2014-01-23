@@ -7,22 +7,65 @@ namespace Selenium.Automation.Framework
     {
         public Browsers Browser
         {
-            get { return (Browsers)Enum.Parse(typeof(Browsers), ConfigurationManager.AppSettings["browser"], true); }
-        }
+            get
+            {
+                string browser = ConfigurationManager.AppSettings["browser"];
 
-        public string Location
-        {
-            get { return ConfigurationManager.AppSettings["location"]; }
+                if (string.IsNullOrEmpty(browser))
+                {
+                    return Browsers.Firefox;
+                }
+
+                return (Browsers)Enum.Parse(typeof(Browsers), browser, true);
+            }
         }
 
         public string TestResultPath
         {
-            get { return ConfigurationManager.AppSettings["test-result-path"]; }
+            get
+            {
+                string path = ConfigurationManager.AppSettings["test-result-path"];
+
+                if (string.IsNullOrEmpty(path))
+                {
+                    return @"TestResults\";
+                }
+
+                return path;
+            }
         }
 
         public string TestDataPath
         {
-            get { return ConfigurationManager.AppSettings["test-data-path"]; }
+            get
+            {
+                string path = ConfigurationManager.AppSettings["test-data-path"];
+
+                if (string.IsNullOrEmpty(path))
+                {
+                    return @"TestData\";
+                }
+
+                return path;
+            }
+        }
+
+        /// <summary>
+        /// Wait timeout in seconds
+        /// </summary>
+        public int WaitTimeout
+        {
+            get
+            {
+                string timeout = ConfigurationManager.AppSettings["wait-timeout"];
+
+                if (string.IsNullOrEmpty(timeout))
+                {
+                    return 20;
+                }
+
+                return int.Parse(timeout);
+            }
         }
     }
 }

@@ -12,3 +12,4 @@ bin/
 obj/
 _ReSharper.*/
 TestResults/
+nuget/lib/
