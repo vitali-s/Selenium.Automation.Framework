@@ -63,7 +63,7 @@ Task Nuget-Publish {
 
     & $nugetpath "SetApiKey", "$apiKey"
 
-    & $nugetpath "Push", "$baseDir\nuget\Selenium.Automation.Framework.0.0.0.1.nupkg"
+    & $nugetpath "Push", "$baseDir\nuget\Selenium.Automation.Framework.0.0.1.2.nupkg"
 }
 
 function Get-Projects-Info

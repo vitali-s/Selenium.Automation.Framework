@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>Selenium.Automation.Framework</id>
-        <version>0.0.0.1</version>
+        <version>0.0.1.2</version>
         <title>Selenium Automation Framework</title>
         <authors>Vitali Shcharbin</authors>
         <owners>Vitali Shcharbin</owners>
@@ -10,14 +10,11 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The frameworks provides clear conventions and separation of concerns along with selenium web driver extensions. The main goal is to build stable and easy to use framework.</description>
         <tags>Selenium Automation Framework WebDriver Extensions</tags>
-        <language />
+        <language>en-US</language>
         <dependencies>
           <dependency id="FluentAssertions" version="2.2.0.0" />
           <dependency id="Newtonsoft.Json" version="5.0.8" />
           <dependency id="Selenium.WebDriver" version="2.39.0" />
         </dependencies>
     </metadata>
-    <files>
-        <file src="lib\Selenium.Automation.Framework.dll" target="" /> 
-    </files>
 </package>

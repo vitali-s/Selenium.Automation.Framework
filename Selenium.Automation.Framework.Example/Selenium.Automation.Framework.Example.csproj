@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Selenium.Automation.Framework.Example</RootNamespace>
     <AssemblyName>Selenium.Automation.Framework.Example</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Firefox|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -48,12 +49,17 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\packages\Selenium.Automation.Framework.0.0.1.2\lib\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Selenium.Automation.Framework.0.0.1.2\lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Selenium.Automation.Framework">
+      <HintPath>..\packages\Selenium.Automation.Framework.0.0.1.2\lib\Selenium.Automation.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -64,7 +70,7 @@
       <HintPath>..\packages\SpecFlow.1.9.0\lib\net35\TechTalk.SpecFlow.dll</HintPath>
     </Reference>
     <Reference Include="WebDriver">
-      <HintPath>..\packages\Selenium.WebDriver.2.39.0\lib\net40\WebDriver.dll</HintPath>
+      <HintPath>..\packages\Selenium.Automation.Framework.0.0.1.2\lib\WebDriver.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -93,12 +99,6 @@
     <Compile Include="Views\RepositoryView.cs" />
     <Compile Include="Views\SearchResultsView.cs" />
     <Compile Include="Views\DefaultNavigationBarView.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Selenium.Automation.Framework\Selenium.Automation.Framework.csproj">
-      <Project>{CB3BE621-63C8-4960-AF0F-04F1A1CAF62B}</Project>
-      <Name>Selenium.Automation.Framework</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\SeleniumDrivers\chromedriver.exe">
@@ -161,6 +161,6 @@
   -->
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v12.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
   <Target Name="AfterBuild">
-    <TransformXml Source="$(ProjectDir)\Selenium.Automation.Framework.Example\app.config" Transform="$(ProjectDir)\Selenium.Automation.Framework.Example\app.$(configuration).config" Destination="$(TargetDir)\Selenium.Automation.Framework.Example.dll.config" />
+    <TransformXml Source="$(SolutionDir)\Selenium.Automation.Framework.Example\app.config" Transform="$(SolutionDir)\Selenium.Automation.Framework.Example\app.$(configuration).config" Destination="$(TargetDir)\Selenium.Automation.Framework.Example.dll.config" />
   </Target>
 </Project>
